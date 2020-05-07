@@ -12,6 +12,7 @@
       let canvas;
       let canvasContext;
       let ballX = 50;
+      let ballSpeedX = 5;
 
       window.onload = function () {
         console.log("Hello World!");
@@ -26,21 +27,31 @@
       };
 
       function move(){
-        ballX = ballX+1;
+        ballX = ballX + ballSpeedX;
+        if(ballX > canvas.width-50){
+          ballSpeedX = -ballSpeedX;
+        }
+        if(ballX < 0){
+          ballSpeedX = -ballSpeedX
+        }
       }
 
       function draw(){
-        
-
-        canvas = document.getElementById("gameCanvas");
-        canvasContext = canvas.getContext("2d");
-        canvasContext.fillStyle = "black";
         // canvasContext.fillRect(from_left, from_top, how_wide_the_shape_is, how_tall_the_shape_is)
-        canvasContext.fillRect(0, 0, canvas.width, canvas.height);
-        canvasContext.fillStyle = "white";
-        canvasContext.fillRect(50, 400, 15,100);
-        canvasContext.fillStyle = "green";
-        canvasContext.fillRect(75, 0, ballX, 50);
+
+        // Playing field
+        colorRect(0, 0, canvas.width, canvas.height, "black");
+
+        // Left player
+        colorRect(50, 400, 15,100, "white");
+
+        // Ball
+        colorRect(ballX, 50, 50, 50, "red");
+      }
+
+      function colorRect(leftX, topY, width, height, drawColor){
+        canvasContext.fillStyle = drawColor;
+        canvasContext.fillRect(leftX, topY, width,height);
       }
     </script>
   </body>
