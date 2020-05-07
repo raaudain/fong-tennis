@@ -11,54 +11,86 @@
     <script>
       let canvas;
       let canvasContext;
+
       let ballX = 50;
+      let ballY = 50;
       let ballSpeedX = 5;
+      let ballSpeedY = 5;
+
+      let paddle1Y = 250;
+      const paddleHeight = 100;
+
+      function calculateMousePosition(event) {
+        // Getting the bounds of the playing field
+        let rect = canvas.getBoundingClientRect();
+        // Getting a handle on the document
+        let root = document.documentElement;
+        // Takes the position of mouse x and y, to the learn where the mouse is on the playing field
+        let mouseX = event.clientX - rect.left - root.scrollLeft;
+        let mouseY = event.clientY - rect.top - root.scrollTop;
+
+        return {
+          x: mouseX,
+          y: mouseY
+        };
+      }
 
       window.onload = function () {
-        console.log("Hello World!");
         canvas = document.getElementById("gameCanvas");
         canvasContext = canvas.getContext("2d");
 
-        let framesPerSecond = 30
-        setInterval(function() {
-            move();
-            draw();
-        }, 1000/framesPerSecond);
+        let framesPerSecond = 30;
+        setInterval(function () {
+          move();
+          draw();
+        }, 1000 / framesPerSecond);
+
+        canvas.addEventListener("mousemove", function (event) {
+          let mousePosition = calculateMousePosition(event);
+          paddle1Y = mousePosition.y-(paddleHeight/2);
+        });
       };
 
-      function move(){
+      function move() {
         ballX = ballX + ballSpeedX;
-        if(ballX > canvas.width){
+        if (ballX > canvas.width) {
           ballSpeedX = -ballSpeedX;
         }
-        if(ballX < 0){
-          ballSpeedX = -ballSpeedX
+        if (ballX < 0) {
+          ballSpeedX = -ballSpeedX;
+        }
+
+        ballY = ballY + ballSpeedY;
+        if (ballY > canvas.height) {
+          ballSpeedY = -ballSpeedY;
+        }
+        if (ballY < 0) {
+          ballSpeedY = -ballSpeedY;
         }
       }
 
-      function draw(){
+      function draw() {
         // canvasContext.fillRect(from_left, from_top, how_wide_the_shape_is, how_tall_the_shape_is)
 
         // Playing field
         colorRect(0, 0, canvas.width, canvas.height, "black");
 
         // Left player
-        colorRect(50, 400, 15,100, "white");
+        colorRect(10, paddle1Y, 15, paddleHeight, "white");
 
         // Ball (X position, Y position, radius, pi*2 is a circle, clockwise or counter clockwise)
-        colorCircle(ballX, 100, 10, "white")
-        
+        colorCircle(ballX, ballY, 10, "white");
       }
 
-      function colorRect(leftX, topY, width, height, drawColor){
+      function colorRect(leftX, topY, width, height, drawColor) {
         canvasContext.fillStyle = drawColor;
-        canvasContext.fillRect(leftX, topY, width,height);
+        canvasContext.fillRect(leftX, topY, width, height);
       }
 
-      function colorCircle(centerX, centerY, radius, drawColor){
+      function colorCircle(centerX, centerY, radius, drawColor) {
         canvasContext.fillStyle = drawColor;
-        canvasContext.beginPath()
-        canvasContext.arc(centerX, centerY, radius, 0, Math.PI*2, true)
+        canvasContext.beginPath();
+        canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
         canvasContext.fill();
       }
     </script>
