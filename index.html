@@ -18,7 +18,10 @@
       let ballSpeedY = 5;
 
       let paddle1Y = 250;
+      let paddle2Y = 250;
+      const paddleWidth = 15;
       const paddleHeight = 100;
+
 
       function calculateMousePosition(event) {
         // Getting the bounds of the playing field
@@ -41,8 +44,8 @@
 
         let framesPerSecond = 30;
         setInterval(function () {
-          move();
-          draw();
+          ballMovement();
+          drawShapes();
         }, 1000 / framesPerSecond);
 
         canvas.addEventListener("mousemove", function (event) {
@@ -51,32 +54,40 @@
         });
       };
 
-      function move() {
+      function ballMovement() {
         ballX = ballX + ballSpeedX;
-        if (ballX > canvas.width) {
-          ballSpeedX = -ballSpeedX;
-        }
-        if (ballX < 0) {
-          ballSpeedX = -ballSpeedX;
+        if (ballX > canvas.width || ballX < 0) {
+          //ballSpeedX = -ballSpeedX;
+          if(ballY > paddle1Y && ballY < paddle1Y+paddleHeight){
+            ballSpeedX = -ballSpeedX;
+            
+          }
+          else if(ballY > paddle2Y && ballY < paddle2Y+paddleHeight){
+            ballSpeedX = -ballSpeedX;
+          }
+          else{
+            ballReact();
+          }
+          
         }
 
         ballY = ballY + ballSpeedY;
-        if (ballY > canvas.height) {
-          ballSpeedY = -ballSpeedY;
-        }
-        if (ballY < 0) {
+        if (ballY > canvas.height || ballY <  0) {
           ballSpeedY = -ballSpeedY;
         }
       }
 
-      function draw() {
+      function drawShapes() {
         // canvasContext.fillRect(from_left, from_top, how_wide_the_shape_is, how_tall_the_shape_is)
 
         // Playing field
         colorRect(0, 0, canvas.width, canvas.height, "black");
 
         // Left player
-        colorRect(10, paddle1Y, 15, paddleHeight, "white");
+        colorRect(10, paddle1Y, paddleWidth, paddleHeight, "white");
+
+        // Right player
+        colorRect(canvas.width-paddleWidth-10, paddle2Y, paddleWidth, paddleHeight, "white");
 
         // Ball (X position, Y position, radius, pi*2 is a circle, clockwise or counter clockwise)
         colorCircle(ballX, ballY, 10, "white");
@@ -92,6 +103,12 @@
         canvasContext.beginPath();
         canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
         canvasContext.fill();
+      }
+
+      function ballReact(){
+        ballSpeedX = -ballSpeedX
+        ballX = canvas.width/2;
+        ballY = canvas.height/2
       }
     </script>
   </body>
