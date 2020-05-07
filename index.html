@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fong Tennis</title>
+  </head>
+  <body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+    <script>
+      let canvas;
+      let canvasContext;
+      let ballX = 50;
+
+      window.onload = function () {
+        console.log("Hello World!");
+        canvas = document.getElementById("gameCanvas");
+        canvasContext = canvas.getContext("2d");
+
+        let framesPerSecond = 60
+        setInterval(function() {
+            move();
+            draw();
+        }, 1000/framesPerSecond);
+      };
+
+      function move(){
+        ballX = ballX+1;
+      }
+
+      function draw(){
+        
+
+        canvas = document.getElementById("gameCanvas");
+        canvasContext = canvas.getContext("2d");
+        canvasContext.fillStyle = "black";
+        // canvasContext.fillRect(from_left, from_top, how_wide_the_shape_is, how_tall_the_shape_is)
+        canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+        canvasContext.fillStyle = "white";
+        canvasContext.fillRect(50, 400, 15,100);
+        canvasContext.fillStyle = "green";
+        canvasContext.fillRect(75, 0, ballX, 50);
+      }
+    </script>
+  </body>
+</html>
