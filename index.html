@@ -19,7 +19,7 @@
         canvas = document.getElementById("gameCanvas");
         canvasContext = canvas.getContext("2d");
 
-        let framesPerSecond = 60
+        let framesPerSecond = 30
         setInterval(function() {
             move();
             draw();
@@ -28,7 +28,7 @@
 
       function move(){
         ballX = ballX + ballSpeedX;
-        if(ballX > canvas.width-50){
+        if(ballX > canvas.width){
           ballSpeedX = -ballSpeedX;
         }
         if(ballX < 0){
@@ -45,13 +45,21 @@
         // Left player
         colorRect(50, 400, 15,100, "white");
 
-        // Ball
-        colorRect(ballX, 50, 50, 50, "red");
+        // Ball (X position, Y position, radius, pi*2 is a circle, clockwise or counter clockwise)
+        colorCircle(ballX, 100, 10, "white")
+        
       }
 
       function colorRect(leftX, topY, width, height, drawColor){
         canvasContext.fillStyle = drawColor;
         canvasContext.fillRect(leftX, topY, width,height);
+      }
+
+      function colorCircle(centerX, centerY, radius, drawColor){
+        canvasContext.fillStyle = drawColor;
+        canvasContext.beginPath()
+        canvasContext.arc(centerX, centerY, radius, 0, Math.PI*2, true)
+        canvasContext.fill();
       }
     </script>
   </body>
