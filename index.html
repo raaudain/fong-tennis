@@ -22,8 +22,11 @@
       const paddleWidth = 15;
       const paddleHeight = 100;
 
+      let showWinScreen = false;
+
       let player1Score = 0;
       let player2Score = 0;
+      const winningScore = 3
 
       function calculateMousePosition(event) {
         // Getting the bounds of the playing field
@@ -57,19 +60,25 @@
       };
 
       function movement() {
+        if(showWinScreen){
+          return;
+        }
+
         computerMovement();
 
         ballX += ballSpeedX;
         if (ballX < 0) {
           if (ballY > paddle1Y && ballY < paddle1Y + paddleHeight) {
             ballSpeedX = -ballSpeedX;
+            
             // Ball control
             let deltaY = ballY - (paddle1Y+paddleHeight/2);
             ballSpeedY = deltaY * 0.35;
           } 
           else {
-            ballReact();
             player2Score++;
+            ballReact();
+            
           }
         }
 
@@ -82,8 +91,8 @@
             ballSpeedY = deltaY * 0.35;
           } 
           else {
-            ballReact();
             player1Score++;
+            ballReact();
           }
         }
 
@@ -94,10 +103,17 @@
       }
 
       function draw() {
+
         // canvasContext.fillRect(from_left, from_top, how_wide_the_shape_is, how_tall_the_shape_is)
 
         // Playing field
         colorRect(0, 0, canvas.width, canvas.height, "black");
+
+        if(showWinScreen){
+          canvasContext.fillStyle = "white";
+          canvasContext.fillText(`${player1Score >= winningScore ? "Player 1 Wins. Click to play again." : "Player 2 Wins. Click to play again."}`, canvas.width - paddleWidth - 150, 100);
+          return;
+        }
 
         // Left player
         colorRect(10, paddle1Y, paddleWidth, paddleHeight, "white");
@@ -128,6 +144,12 @@
       }
 
       function ballReact() {
+        if(player1Score >= winningScore || player2Score >= winningScore){
+          player1Score = 0;
+          player2Score = 0;
+          showWinScreen = true;
+        }
+
         ballSpeedX = -ballSpeedX;
         ballX = canvas.width / 2;
         ballY = canvas.height / 2;
