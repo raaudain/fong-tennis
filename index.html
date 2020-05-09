@@ -114,8 +114,14 @@
         }
       }
 
-      function draw() {
+      function drawNet(){
+        for(let i=0; i<canvas.height; i+=40){
+          colorRect(canvas.width/2-1,i,2, 20, "white");
+        }
+      }
 
+      function draw() {
+        
         // canvasContext.fillRect(from_left, from_top, how_wide_the_shape_is, how_tall_the_shape_is)
 
         // Playing field
@@ -123,9 +129,12 @@
 
         if(showWinScreen){
           canvasContext.fillStyle = "white";
-          canvasContext.fillText(`${player1Score >= winningScore ? "Player 1 Wins. Click to play again." : "Player 2 Wins. Click to play again."}`, canvas.width - paddleWidth - 150, 100);
+          canvasContext.fillText(`${player1Score >= winningScore ? "Player 1 Wins!!!" : "Player 2 Wins!!!"}`, 350, 100);
+          canvasContext.fillText("Click to play again", 350, 150);
           return;
         }
+
+        drawNet();
 
         // Left player
         colorRect(10, paddle1Y, paddleWidth, paddleHeight, "white");
