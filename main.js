@@ -70,7 +70,7 @@ function movement() {
   ballX += ballSpeedX;
 
   // Player 1
-  if (ballX - 30 < 0) {
+  if (ballX - 25 < 0) {
     if (ballY > paddle1Y && ballY < paddle1Y + paddleHeight) {
       ballSpeedX = -ballSpeedX;
 
@@ -85,7 +85,7 @@ function movement() {
   }
 
   // Player 2
-  if (ballX + 30 > canvas.width) {
+  if (ballX + 25 > canvas.width) {
     if (ballY > paddle2Y && ballY < paddle2Y + paddleHeight) {
       ballSpeedX = -ballSpeedX;
 
@@ -136,7 +136,7 @@ function draw() {
   // canvasContext.fillRect(from_left, from_top, how_wide_the_shape_is, how_tall_the_shape_is)
 
   // Playing field
-  colorRect(0, 0, canvas.width, canvas.height, "black");
+  colorRect(0, 0, canvas.width, canvas.height, "#000000");
 
   if (showWinScreen) {
     canvasContext.fillStyle = "white";
@@ -149,23 +149,19 @@ function draw() {
   drawNet();
 
   // Left player
-  colorRect(10, paddle1Y, paddleWidth, paddleHeight, "white");
+  colorRect(0, paddle1Y, paddleWidth, paddleHeight, "white");
 
   // Right player
-  colorRect(canvas.width - paddleWidth - 10, paddle2Y, paddleWidth, paddleHeight, "white");
-
-  // Ball (X position, Y position, radius, pi*2 is a circle, clockwise or counter clockwise)
-  colorCircle(ballX, ballY+10, 10, "white");
-
+  colorRect(canvas.width - paddleWidth, paddle2Y, paddleWidth, paddleHeight, "white");
+  
   canvasContext.fillText("Player 1 Score:", 100, 100);
   canvasContext.fillText(player1Score, 131, 120);
 
-  canvasContext.fillText(
-    "Player 2 Score:",
-    canvas.width - paddleWidth - 150,
-    100
-  );
+  canvasContext.fillText("Player 2 Score:", canvas.width - paddleWidth - 150, 100);
   canvasContext.fillText(player2Score, canvas.width - paddleWidth - 119, 120);
+  // Ball (X position, Y position, radius, pi*2 is a circle, clockwise or counter clockwise)
+  colorCircle(ballX, ballY+10, 10, "#e7f241");
+
 }
 
 function colorRect(leftX, topY, width, height, drawColor) {
